@@ -14,6 +14,8 @@ namespace Kreta.Shared.Extensions
                 SubjectId = dto.SubjectId,
                 NumberOfHours = dto.NumberOfHours,
                 IsTheHoursInOne= dto.IsTheHoursInOne,
+                SchoolClass = dto.SchoolClass,
+                Subject=dto.Subject,
             };
         }
 
@@ -26,6 +28,8 @@ namespace Kreta.Shared.Extensions
                 SubjectId = model.SubjectId,
                 NumberOfHours = model.NumberOfHours,
                 IsTheHoursInOne = model.IsTheHoursInOne,
+                SchoolClass= model.SchoolClass,
+                Subject=model.Subject,
             };
         }
     }

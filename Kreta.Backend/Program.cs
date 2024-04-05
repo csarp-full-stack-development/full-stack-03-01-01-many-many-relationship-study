@@ -22,6 +22,8 @@ builder.Services.ConfigureInMemoryContext();
 builder.Services.ConfigureRepoService();
 // Assamblerek konfigurálása
 builder.Services.ConfigureAssamblers();
+// Service
+builder.Services.ConfigureServices();
 
 var app = builder.Build();
 

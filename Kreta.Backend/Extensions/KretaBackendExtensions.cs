@@ -2,6 +2,7 @@
 using Kreta.Backend.Repos;
 using Kreta.Backend.Repos.Managers;
 using Kreta.Backend.Repos.SwitchTables;
+using Kreta.Backend.Services;
 using Kreta.Shared.Assamblers;
 using Microsoft.EntityFrameworkCore;
 
@@ -67,6 +68,13 @@ namespace Kreta.Backend.Extensions
             services.AddScoped<PublicSpaceAssambler>();
             services.AddScoped<SchoolClassAssambler>();
             services.AddScoped<TypeOfEducationAssambler>();
+
+            services.AddScoped<SchoolClassSubjectsAssambler>();
+        }
+
+        public static void ConfigureServices(this IServiceCollection services)
+        {
+            services.AddScoped<ISchoolClassSubjectService, SchoolClassSubjectService>();
         }
     }
 }

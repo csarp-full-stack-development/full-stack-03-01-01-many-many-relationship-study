@@ -17,6 +17,7 @@ namespace Kreta.Shared.Extensions
                 HeadTeacherId = dto.HeadTeacherId,
                 TypeOfEducationId = dto.TypeOfEducationId,
                 TypeOfEducation = dto.TypeOfEducation,
+                SchoolClassSubjects = dto.SchoolClassSubjects,
             };
         }
 
@@ -32,6 +33,7 @@ namespace Kreta.Shared.Extensions
                 HeadTeacherId=model.HeadTeacherId,
                 TypeOfEducationId = model.TypeOfEducationId,
                 TypeOfEducation= model.TypeOfEducation,
+                SchoolClassSubjects = model.SchoolClassSubjects,
             };
         }
     }

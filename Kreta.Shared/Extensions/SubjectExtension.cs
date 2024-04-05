@@ -14,7 +14,7 @@ namespace Kreta.Shared.Extensions
                 ShortName = subject.ShortName,
                 CompulsoryExaminationSubject=subject.CompulsoryExaminationSubject,
                 OptionalExaminationSubject = subject.OptionalExaminationSubject,
-
+                SchoolClassSubjects = subject.SchoolClassSubjects,
             };
         }
 
@@ -27,6 +27,7 @@ namespace Kreta.Shared.Extensions
                 SubjectName=subjectDto.SubjectName,
                 CompulsoryExaminationSubject=subjectDto.CompulsoryExaminationSubject,
                 OptionalExaminationSubject= subjectDto.OptionalExaminationSubject,
+                SchoolClassSubjects = subjectDto.SchoolClassSubjects,
             };
         }
     }
