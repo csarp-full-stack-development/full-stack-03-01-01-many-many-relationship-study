@@ -1,6 +1,7 @@
 ﻿using Kreta.Backend.Context;
 using Kreta.Backend.Repos;
 using Kreta.Backend.Repos.Managers;
+using Kreta.Backend.Repos.SwitchTables;
 using Kreta.Shared.Assamblers;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,6 +47,8 @@ namespace Kreta.Backend.Extensions
             services.AddScoped<IAddressRepo, AddressRepo<KretaInMemoryContext>>();
             services.AddScoped<IPublicSpaceRepo, PublicSpaceRepo<KretaInMemoryContext>>();
             services.AddScoped<ITypeOfEducationRepo, TypeOfEducationRepo<KretaInMemoryContext>>();
+
+            services.AddScoped<ISchoolClassSubjectsRepo, SchoolClassSubjectsRepo<KretaInMemoryContext>>();
 
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         }
