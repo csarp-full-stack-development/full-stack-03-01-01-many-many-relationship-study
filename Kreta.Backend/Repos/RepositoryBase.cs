@@ -17,6 +17,10 @@ namespace Kreta.Backend.Repos
             _dbContext = dbContext;
             _dbSet = _dbContext?.Set<TEntity>() ?? throw new ArgumentException($"A {nameof(TEntity)} adatbázis tábla nem elérhető!");
         }
+        public IQueryable<TEntity> GetEmpty()
+        {
+            return _dbSet?.Take(0) ?? throw new ArgumentException($"A {nameof(TEntity)} adatbázis tábla nem elérhető!");
+        }
         public IQueryable<TEntity> FindAll()
         {
             if (_dbSet is null)
