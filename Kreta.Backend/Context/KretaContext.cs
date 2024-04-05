@@ -1,5 +1,6 @@
 ﻿using Kreta.Shared.Models;
 using Kreta.Shared.Models.SchoolCitizens;
+using Kreta.Shared.Models.SwitchTable;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kreta.Backend.Context
@@ -22,7 +23,18 @@ namespace Kreta.Backend.Context
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {               
+        {
+            modelBuilder.Entity<SchoolClassSubjects>()
+                .HasOne(schoolClassSubject => schoolClassSubject.SchoolClass)
+                .WithMany(subject => subject.SchoolClassSubjects)
+                .HasForeignKey(schoolClassSubject => schoolClassSubject.SchoolClassId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<SchoolClassSubjects>()
+                .HasOne(schoolClassSubjects => schoolClassSubjects.Subject)
+                .WithMany(schoolClass => schoolClass.SchoolClassSubjects)
+                .HasForeignKey(schoolClassSubjects => schoolClassSubjects.SubjectId)
+                .IsRequired(false);
         }
     }
 }

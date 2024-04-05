@@ -1,4 +1,6 @@
-﻿namespace Kreta.Shared.Models
+﻿using Kreta.Shared.Models.SwitchTable;
+
+namespace Kreta.Shared.Models
 {
     public class Subject : IDbEntity<Subject>
     {
@@ -29,6 +31,7 @@
         public bool OptionalExaminationSubject { get; set; }
         public bool CompulsoryExaminationSubject { get; set; }
         public bool HasId => Id != Guid.Empty;
+        public virtual ICollection<SchoolClassSubjects>? SchoolClassSubjects { get; set; }
 
         public override string ToString()
         {

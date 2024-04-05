@@ -1,4 +1,6 @@
 ﻿
+using Kreta.Shared.Models.SwitchTable;
+
 namespace Kreta.Shared.Models
 {
     public class SchoolClass : IDbEntity<SchoolClass>
@@ -34,6 +36,7 @@ namespace Kreta.Shared.Models
         public Guid? HeadTeacherId { get; set; }
         public int YearOfEnrolment {  get; set; }
         public bool IsArchived { get; set; }
+        public virtual ICollection<SchoolClassSubjects>? SchoolClassSubjects { get; set; }
 
         public override string ToString()
         {
