@@ -1,5 +1,4 @@
-﻿
-namespace Kreta.Shared.Dtos
+﻿namespace Kreta.Shared.Dtos
 {
     public class SchoolClassSubjectsDto
     {

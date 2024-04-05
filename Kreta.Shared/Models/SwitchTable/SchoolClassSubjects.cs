@@ -1,4 +1,4 @@
-﻿namespace Kreta.Shared.Models
+﻿namespace Kreta.Shared.Models.SwitchTable
 {
     public class SchoolClassSubjects : IDbEntity<SchoolClassSubjects>
     {
