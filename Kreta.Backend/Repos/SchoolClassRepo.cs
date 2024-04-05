@@ -26,5 +26,12 @@ namespace Kreta.Backend.Repos
               schoolClass.TypeOfEducationId == null ||
               schoolClass.TypeOfEducationId == Guid.Empty);
         }
+
+        public IQueryable<SchoolClass> SelectSchoolClassesWithSubjects()
+        {
+            return FindAll()
+                    .Include(schoolClasses => schoolClasses.SchoolClassSubjects)
+                    .ThenInclude(schoolClassSubjects => schoolClassSubjects.Subject);
+        }
     }
 }
