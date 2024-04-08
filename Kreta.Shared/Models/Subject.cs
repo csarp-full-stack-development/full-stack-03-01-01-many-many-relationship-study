@@ -31,8 +31,8 @@ namespace Kreta.Shared.Models
         public bool OptionalExaminationSubject { get; set; }
         public bool CompulsoryExaminationSubject { get; set; }
         public bool HasId => Id != Guid.Empty;
-        public virtual ICollection<SchoolClassSubjects>? SchoolClassSubjects { get; set; }
-
+        public virtual ICollection<SchoolClassSubjects>? SchoolClassSubjects { get; set; }        
+        public string Name => $"{SubjectName} ({ShortName})";
         public override string ToString()
         {
             string compulsory = CompulsoryExaminationSubject ? "kötelező érettségi tárgy": "";

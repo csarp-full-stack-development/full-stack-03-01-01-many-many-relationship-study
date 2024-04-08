@@ -2,11 +2,14 @@
 using CommunityToolkit.Mvvm.Input;
 using Kreta.Desktop.ViewModels.Base;
 using Kreta.HttpService.Services;
+using Kreta.Shared.Dtos;
 using Kreta.Shared.Models;
+using Kreta.Shared.Models.SwitchTable;
 using Kreta.Shared.Responses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kreta.Desktop.ViewModels.SchoolClasses
@@ -14,28 +17,30 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
     public partial class SchoolClassesManagmentViewModel : BaseViewModel
     {
         private ISchoolClassService? _schoolClassService;
-        private ITypeOfEducationService? _typeOfEducationService;
-        public string Title { get; set; } = "Osztályok kezelése";
+        private ISubjectService? _subjectService;
+        private ISchoolClassSubjectsService? _schoolClassSubjectsService;
 
-        [ObservableProperty]
-        private SchoolClass _selectedSchoolClass = new SchoolClass();
+        [ObservableProperty] private SchoolClass? _selectedSchoolClass = new();
+        [ObservableProperty] private SchoolClassSubjects? _selectedSchoolClassSubjects = new();
 
-        [ObservableProperty]
-        private ObservableCollection<SchoolClass> _schoolClasses = new ObservableCollection<SchoolClass>();
+        [ObservableProperty] private ObservableCollection<SchoolClass>? _schoolClasses = new();
 
-        [ObservableProperty]
-        private ObservableCollection<TypeOfEducation> _typeOfEducations = new();
+        [ObservableProperty] private ObservableCollection<Subject>? _subjectWhoNotStudySchoolClass = new();
+        [ObservableProperty] private Subject? _selectedSubjectWhoNotStudySchoolClass = new();
 
         public SchoolClassesManagmentViewModel()
         {
         }
-        public SchoolClassesManagmentViewModel(
-            ISchoolClassService schoolClassService,
-            ITypeOfEducationService? typeOfEducationService)
+        public SchoolClassesManagmentViewModel(ISchoolClassService schoolClassService,
+                                               ISubjectService subjectService,
+                                               ISchoolClassSubjectsService schoolClassSubjectsService)
         {
             _schoolClassService = schoolClassService;
-            _typeOfEducationService = typeOfEducationService;
+            _subjectService = subjectService;
+            _schoolClassSubjectsService = schoolClassSubjectsService;
         }
+
+        public string Title { get; set; } = "Osztályok kezelése";
 
         public override async Task InitializeAsync()
         {
@@ -44,55 +49,34 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         }
 
         [RelayCommand]
-        private void New()
+        private async Task GetSubjectNotStudiedInTheSchoolClass()
         {
-            SelectedSchoolClass = new();
+            await UpdateSubjectNotStudiedInTheSchoolClass();
         }
 
-        [RelayCommand]
-        private async Task Delete(SchoolClass schoolClassToDelete)
-        {
-            if (_schoolClassService is not null)
-            {
-                ControllerResponse response = await _schoolClassService.DeleteAsync(schoolClassToDelete.Id);
-                if (response.IsSuccess)
-                    await UpdateView();
-            }
-        }
-
-
-        [RelayCommand]
-        private async Task Save(SchoolClass schoolClassToSave)
-        {
-            if (_schoolClassService != null)
-            {
-                ControllerResponse response = new ControllerResponse();
-                if (schoolClassToSave.HasId)
-                {
-                    response = await _schoolClassService.UpdateAsync(schoolClassToSave);
-                }
-                else
-                {
-                    response = await _schoolClassService.InsertAsync(schoolClassToSave);
-                }
-                if (response.IsSuccess)
-                {
-                    await UpdateView();
-                }
-            }
-        }
         private async Task UpdateView()
         {
+            await UpdateSubjectNotStudiedInTheSchoolClass();
+            await UpdateSchoolClassWithSubject();
+        }
+
+        private async Task UpdateSchoolClassWithSubject()
+        {
             if (_schoolClassService != null)
             {
-                List<SchoolClass> schoolClasses = await _schoolClassService.SelectAllIncludedAsync();
+                SchoolClass? storedPreviusSchoolClass = SelectedSchoolClass is not null ? SelectedSchoolClass : new();
+                List<SchoolClass>? schoolClasses = await _schoolClassService.GetAllSchoolClassWithSubjectsAsync();
                 SchoolClasses = new ObservableCollection<SchoolClass>(schoolClasses);
+                SelectedSchoolClass = schoolClasses.FirstOrDefault(schoolClass => schoolClass.Id == storedPreviusSchoolClass.Id);
+                SelectedSchoolClass = SelectedSchoolClass is not null ? SelectedSchoolClass : new();
             }
-
-            if (_typeOfEducationService is not null)
+        }
+        private async Task UpdateSubjectNotStudiedInTheSchoolClass()
+        {
+            if (_schoolClassService is not null && SelectedSchoolClass is not null && SelectedSchoolClass.HasId)
             {
-                List<TypeOfEducation> typeOfEducations = await _typeOfEducationService.SelectAllAsync();
-                TypeOfEducations = new ObservableCollection<TypeOfEducation>(typeOfEducations);
+                List<Subject>? subjects = await _schoolClassService.GetSubjectNotStudiedInTheSchoolClass(SelectedSchoolClass.Id);
+                SubjectWhoNotStudySchoolClass = new ObservableCollection<Subject>(subjects);
             }
         }
     }

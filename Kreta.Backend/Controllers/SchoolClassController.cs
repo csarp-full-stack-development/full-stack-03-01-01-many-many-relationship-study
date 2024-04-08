@@ -18,6 +18,7 @@ namespace Kreta.Backend.Controllers
         public SchoolClassController(ISchoolClassSubjectService? schoolClassSubjectService, SchoolClassAssambler? assambler, ISchoolClassRepo? repo) : base(assambler, repo)
         {
             _schoolClassRepo = repo;
+            _schoolClassSubjectService = schoolClassSubjectService;
         }
 
         [HttpGet("included")]
