@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kreta.Desktop.Views.SchoolSubjects"
              xmlns:viewModels="clr-namespace:Kreta.Desktop.ViewModels.SchoolSubjects"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=viewModels:SubjectsManagmentViewModel, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -18,6 +19,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
             <ColumnDefinition Width="300"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -59,9 +61,38 @@
         <CheckBox Grid.Row="4" Grid.Column="1" Margin="2 6 2 2" IsChecked="{Binding SelectedSubject.CompulsoryExaminationSubject}"></CheckBox>
         <CheckBox Grid.Row="5" Grid.Column="1" Margin="2 6 2 2" IsChecked="{Binding SelectedSubject.OptionalExaminationSubject}"></CheckBox>
         <ComboBox Grid.Row="6" Grid.Column="1" Margin="2 2 2 2"></ComboBox>
-        <ListBox Grid.Row="8" Grid.ColumnSpan="2" Margin="2 2 2 2"
+        <ListBox Grid.Row="8"  Grid.ColumnSpan="2" Margin="2 2 2 2"
                  ItemsSource="{Binding Subjects}"
-                 SelectedItem="{Binding SelectedSubject}"
+                 SelectedItem="{Binding SelectedSubject}">
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="SelectionChanged">
+                    <behaviors:InvokeCommandAction Command="{Binding GetSchoolClassWhoNotStudySubjectCommand}" />
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
+        </ListBox>
+        <Label Grid.Row="2" Grid.Column="2">Tantárgyat tanuló osztályok:</Label>
+        <ListBox Grid.Row="3" Grid.RowSpan="3" Grid.Column="3"
+                 ItemsSource="{Binding SelectedSubject.SchoolClassSubjects}"
+                 SelectedItem="{Binding SelectedSchoolClassSubjects}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding SchoolClass.SchoolClassName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Grid.Row="6" Grid.Column="3" VerticalAlignment="Bottom">Tantárgyat nem tanuló osztályok:</Label>
+        <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE1FD;">
+            </Button>
+            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE110;">
+            </Button>
+        </StackPanel>
+        <ListBox Grid.Row="8" Grid.Column="3"
+                 Margin="10 2 10 10"
+                 ItemsSource="{Binding SchoolClassesWhoNotStudySubject}"
+                 SelectedItem="{Binding SelectedSchoolClassesWhoNotStudySubject}"
         />
     </Grid>
 </UserControl>

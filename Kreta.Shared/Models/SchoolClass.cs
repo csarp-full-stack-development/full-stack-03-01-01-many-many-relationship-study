@@ -37,6 +37,21 @@ namespace Kreta.Shared.Models
         public int YearOfEnrolment {  get; set; }
         public bool IsArchived { get; set; }
         public virtual ICollection<SchoolClassSubjects>? SchoolClassSubjects { get; set; }
+        public string SchoolClassTypeName
+        {
+            get
+            {
+                string className = string.Empty;
+                switch (SchoolClassType)
+                {
+                    case SchoolClassType.ClassA: className = "a"; break;
+                    case SchoolClassType.ClassB: className = "b"; break;
+                    case SchoolClassType.ClassC: className = "c"; break;
+                }
+                return className;
+            }
+        }
+        public string SchoolClassName => $"{SchoolYear}.{SchoolClassTypeName} ({YearOfEnrolment})";
 
         public override string ToString()
         {
