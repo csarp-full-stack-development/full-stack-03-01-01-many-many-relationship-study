@@ -56,6 +56,36 @@ namespace Kreta.Desktop.ViewModels.SchoolSubjects
         {
             await UpdateSchoolClassWhoNotStudySubject();
         }
+
+        [RelayCommand]
+        private async Task MoveToSchoolClassNotStudiedSubject()
+        {
+            if (SelectedSchoolClassSubjects is not null && _schoolClassSubjectsService is not null)
+            {
+                ControllerResponse response = await _schoolClassSubjectsService.MoveToNotStudyingAsync(SelectedSchoolClassSubjects);
+                if (response.IsSuccess)
+                {
+                    await UpdateView();
+                }
+            }
+        }
+
+        [RelayCommand]
+        private async Task MoveToSchoolClassStudiedSubject()
+        {
+            if (_schoolClassSubjectsService is not null && SelectedSubject is not null && SelectedSchoolClassesWhoNotStudySubject is not null)
+            {
+                SchoolClassSubjects newSchoolClassSubject = new SchoolClassSubjects()
+                {
+                    SchoolClassId = SelectedSchoolClassesWhoNotStudySubject.Id,
+                    SubjectId = SelectedSubject.Id,
+                };
+                ControllerResponse response = await _schoolClassSubjectsService.MoveToStudyingAsync(newSchoolClassSubject);
+                if (response.IsSuccess)
+                    await UpdateView();
+            }
+        }
+
         private async Task UpdateView()
         {
             await UpdateSchoolClassWhoNotStudySubject();

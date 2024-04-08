@@ -97,10 +97,11 @@
         </ListBox>
         <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE1FD;"
+                    Command="{Binding MoveSubjectToNotStudiedInTheSchoolClassCommand}"
                     >
             </Button>
             <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE110;"
-            >
+                    Command="{Binding MoveSubjectToStudiedInTheSchoolClassCommand}">
             </Button>
         </StackPanel>
         <Label Grid.Row="8" Grid.Column="3">Osztályt által nem tanult tantárgyak:</Label>

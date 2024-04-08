@@ -84,9 +84,11 @@
         </ListBox>
         <Label Grid.Row="6" Grid.Column="3" VerticalAlignment="Bottom">Tantárgyat nem tanuló osztályok:</Label>
         <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE1FD;">
+            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE1FD;"
+                    Command="{Binding MoveToSchoolClassNotStudiedSubjectCommand}">
             </Button>
-            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE110;">
+            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE110;"
+                    Command="{Binding MoveToSchoolClassStudiedSubjectCommand}">
             </Button>
         </StackPanel>
         <ListBox Grid.Row="8" Grid.Column="3"
